@@ -11,8 +11,6 @@ UPositionReporter::UPositionReporter()
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -21,8 +19,9 @@ void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	FString ObjectName = GetOwner()->GetName();
+
+	UE_LOG(LogTemp, Warning, TEXT("Position reporter reporting for duty on %s !"), *ObjectName);
 }
 
 
