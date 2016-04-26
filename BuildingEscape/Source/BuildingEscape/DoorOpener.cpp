@@ -11,8 +11,6 @@ UDoorOpener::UDoorOpener()
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -20,27 +18,22 @@ UDoorOpener::UDoorOpener()
 void UDoorOpener::BeginPlay()
 {
 	Super::BeginPlay();
-
-	FString Name = GetOwner()->GetName();
-	FString Rotation = GetOwner()->GetTransform().GetRotation().ToString();
-	
-	UE_LOG(LogTemp, Warning, TEXT("%s has rotation %s"), *Name, *Rotation);
 }
 
+void UDoorOpener::OpenDoor() 
+{
+	if(YawAngle <= 90)
+		YawAngle += 1;
+	FRotator Rotater = FRotator(0.0f, YawAngle, 0.0f);
+	GetOwner()->SetActorRotation(Rotater);
+}
 
 // Called every frame
 void UDoorOpener::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-	float MaxZRotation = 90;
-	float CurrentRotation = World->GetTimeSeconds()*40;
-
-	if(CurrentRotation > MaxZRotation)
-		return;
-
-	FRotator Rotater = FRotator(0.0f, CurrentRotation, 0.0f);
-	
-	GetOwner()->SetActorRotation(Rotater);
+	if(PressurePlate->IsOverlappingActor(DoorOpeningActor))
+		OpenDoor();
 }
 
