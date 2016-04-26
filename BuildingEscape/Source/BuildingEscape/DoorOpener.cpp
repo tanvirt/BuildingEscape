@@ -18,13 +18,17 @@ UDoorOpener::UDoorOpener()
 void UDoorOpener::BeginPlay()
 {
 	Super::BeginPlay();
+
+	OriginalYawAngle = GetOwner()->GetActorRotation().Yaw;
+	CurrentYawAngle = OriginalYawAngle;
+	DoorOpeningActor = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 void UDoorOpener::OpenDoor() 
 {
-	if(YawAngle <= 90)
-		YawAngle += 1;
-	FRotator Rotater = FRotator(0.0f, YawAngle, 0.0f);
+	if(CurrentYawAngle <= OriginalYawAngle + 90)
+		CurrentYawAngle += 1;
+	FRotator Rotater = FRotator(0.0f, CurrentYawAngle, 0.0f);
 	GetOwner()->SetActorRotation(Rotater);
 }
 
