@@ -24,13 +24,13 @@ public:
 	void OpenDoor();
 
 private:
-	float OriginalYawAngle;
+	float OriginalYawAngle = 0.0f;
 
 	UPROPERTY(VisibleAnywhere)
 	float CurrentYawAngle = 0.0f;
 
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
+	ATriggerVolume* PressurePlate = NULL;
 	
-	AActor* DoorOpeningActor;
+	AActor* DoorOpeningActor = NULL;
 };
