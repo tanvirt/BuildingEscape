@@ -27,7 +27,15 @@ void UDoorOpener::BeginPlay()
 void UDoorOpener::OpenDoor() 
 {
 	if(CurrentYawAngle <= OriginalYawAngle + 90)
-		CurrentYawAngle += 1;
+		CurrentYawAngle += 2;
+	FRotator Rotater = FRotator(0.0f, CurrentYawAngle, 0.0f);
+	GetOwner()->SetActorRotation(Rotater);
+}
+
+void UDoorOpener::CloseDoor()
+{
+	if (CurrentYawAngle > OriginalYawAngle)
+		CurrentYawAngle -= 3;
 	FRotator Rotater = FRotator(0.0f, CurrentYawAngle, 0.0f);
 	GetOwner()->SetActorRotation(Rotater);
 }
@@ -37,7 +45,9 @@ void UDoorOpener::TickComponent( float DeltaTime, ELevelTick TickType, FActorCom
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-	if(PressurePlate != NULL && PressurePlate->IsOverlappingActor(DoorOpeningActor))
+	if (PressurePlate != NULL && PressurePlate->IsOverlappingActor(DoorOpeningActor))
 		OpenDoor();
+	else if (PressurePlate != NULL && !PressurePlate->IsOverlappingActor(DoorOpeningActor))
+		CloseDoor();
 }
 
