@@ -31,7 +31,7 @@ private:
 	float CurrentYawAngle = 0.0f;
 
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate = NULL;
+	ATriggerVolume* PressurePlate = nullptr;
 	
-	AActor* DoorOpeningActor = NULL;
+	AActor* DoorOpeningActor = nullptr;
 };

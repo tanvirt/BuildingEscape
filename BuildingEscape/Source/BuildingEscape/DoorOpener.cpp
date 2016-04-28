@@ -3,7 +3,6 @@
 #include "BuildingEscape.h"
 #include "DoorOpener.h"
 
-
 // Sets default values for this component's properties
 UDoorOpener::UDoorOpener()
 {
@@ -12,7 +11,6 @@ UDoorOpener::UDoorOpener()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 }
-
 
 // Called when the game starts
 void UDoorOpener::BeginPlay()
@@ -45,9 +43,8 @@ void UDoorOpener::TickComponent( float DeltaTime, ELevelTick TickType, FActorCom
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-	if (PressurePlate != NULL && PressurePlate->IsOverlappingActor(DoorOpeningActor))
+	if (PressurePlate != nullptr && PressurePlate->IsOverlappingActor(DoorOpeningActor))
 		OpenDoor();
-	else if (PressurePlate != NULL && !PressurePlate->IsOverlappingActor(DoorOpeningActor))
+	else if (PressurePlate != nullptr && !PressurePlate->IsOverlappingActor(DoorOpeningActor))
 		CloseDoor();
 }
-
