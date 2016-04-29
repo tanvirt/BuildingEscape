@@ -15,6 +15,9 @@ UDoorOpener::UDoorOpener() {
 void UDoorOpener::BeginPlay() {
 	Super::BeginPlay();
 
+	if (!PressurePlate)
+		UE_LOG(LogTemp, Error, TEXT("Door Opener for %s is missing a Pressure Plate (Trigger Volume)"), *GetOwner()->GetName());
+
 	OriginalYawAngle = GetOwner()->GetActorRotation().Yaw;
 	CurrentYawAngle = OriginalYawAngle;
 }
@@ -23,7 +26,7 @@ void UDoorOpener::BeginPlay() {
 void UDoorOpener::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (PressurePlate && GetTotalMassOnPressurePlate() >= TriggerMass)
+	if (GetTotalMassOnPressurePlate() >= TriggerMass)
 		OpenDoor();
 	else
 		CloseDoor();
@@ -45,6 +48,8 @@ void UDoorOpener::CloseDoor() {
 
 float UDoorOpener::GetTotalMassOnPressurePlate() {
 	TArray<AActor*> OverlappingActors;
+
+	if (!PressurePlate) return -1.0f;
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 
 	float TotalMass = 0.0f;

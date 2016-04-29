@@ -26,6 +26,8 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
 	FVector LineTraceEnd = GetReachEnd();
+
+	if (!PhysicsHandle) return;
 	if (PhysicsHandle->GrabbedComponent)
 		PhysicsHandle->SetTargetLocation(LineTraceEnd);
 }
@@ -33,18 +35,18 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 void UGrabber::SetUpPhysicsHandle() {
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (!PhysicsHandle)
-		UE_LOG(LogTemp, Error, TEXT("%s is missing a physics handle component"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("Grabber for %s is missing a Physics Handle Component"), *GetOwner()->GetName());
 }
 
 void UGrabber::SetUpInputComponent() {
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
-	if (InputComponent) {
-		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
-		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
+	if (!InputComponent) {
+		UE_LOG(LogTemp, Error, TEXT("Grabber for %s is missing an Input Component"), *GetOwner()->GetName());
+		return;
 	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("%s is missing an input component"), *GetOwner()->GetName());
-	}
+
+	InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 }
 
 void UGrabber::Grab() {
@@ -53,6 +55,7 @@ void UGrabber::Grab() {
 	AActor* Actor = HitResult.GetActor();
 
 	if (Actor) {
+		if (!PhysicsHandle) return;
 		PhysicsHandle->GrabComponent(
 			ComponentToGrab,
 			NAME_None,
@@ -63,6 +66,7 @@ void UGrabber::Grab() {
 }
 
 void UGrabber::Release() {
+	if (!PhysicsHandle) return;
 	if (PhysicsHandle->GrabbedComponent)
 		PhysicsHandle->ReleaseComponent();
 }
