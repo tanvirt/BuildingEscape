@@ -71,10 +71,10 @@ FHitResult UGrabber::GetFirstPhysicsBodyInReach() {
 	FVector LineTraceStart = GetReachStart();
 	FVector LineTraceEnd = GetReachEnd();
 
-	return GetLineTraceHitResult(LineTraceStart, LineTraceEnd);
+	return GetLineTraceHitResult(LineTraceStart, LineTraceEnd, ECollisionChannel::ECC_PhysicsBody);
 }
 
-FHitResult UGrabber::GetLineTraceHitResult(FVector LineTraceStart, FVector LineTraceEnd) {
+FHitResult UGrabber::GetLineTraceHitResult(FVector LineTraceStart, FVector LineTraceEnd, ECollisionChannel CollisionChannel) {
 	FCollisionQueryParams TraceParameters = FCollisionQueryParams(FName(TEXT("")), false, GetOwner());
 
 	FHitResult HitResult;
@@ -82,7 +82,7 @@ FHitResult UGrabber::GetLineTraceHitResult(FVector LineTraceStart, FVector LineT
 		OUT HitResult,
 		LineTraceStart,
 		LineTraceEnd,
-		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		FCollisionObjectQueryParams(CollisionChannel),
 		TraceParameters
 	);
 

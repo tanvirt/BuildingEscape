@@ -34,7 +34,7 @@ private:
 	void Release();
 
 	FHitResult GetFirstPhysicsBodyInReach();
-	FHitResult GetLineTraceHitResult(FVector LineTraceStart, FVector LineTraceEnd);
+	FHitResult GetLineTraceHitResult(FVector LineTraceStart, FVector LineTraceEnd, ECollisionChannel CollisionChannel);
 
 	FVector GetReachStart();
 	FVector GetReachEnd();
