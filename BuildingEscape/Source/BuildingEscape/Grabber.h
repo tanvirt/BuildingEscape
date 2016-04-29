@@ -25,14 +25,17 @@ private:
 	float Reach = 100.0f;
 	
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
-
 	UInputComponent* InputComponent = nullptr;
 
 	void SetUpPhysicsHandle();
 	void SetUpInputComponent();
-	AActor* GetFirstPhysicsBodyInReach();
-	FHitResult GetLineTraceHitResult(FVector LineTraceStart, FVector LineTraceEnd);
 
 	void Grab();
 	void Release();
+
+	FHitResult GetFirstPhysicsBodyInReach();
+	FHitResult GetLineTraceHitResult(FVector LineTraceStart, FVector LineTraceEnd);
+
+	FVector GetReachStart();
+	FVector GetReachEnd();
 };
