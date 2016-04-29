@@ -28,5 +28,11 @@ private:
 
 	UInputComponent* InputComponent = nullptr;
 
+	void SetUpPhysicsHandle();
+	void SetUpInputComponent();
+	AActor* GetFirstPhysicsBodyInReach();
+	FHitResult GetLineTraceHitResult(FVector LineTraceStart, FVector LineTraceEnd);
+
 	void Grab();
+	void Release();
 };
