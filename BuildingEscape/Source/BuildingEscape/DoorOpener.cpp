@@ -17,9 +17,6 @@ void UDoorOpener::BeginPlay() {
 
 	if (!PressurePlate)
 		UE_LOG(LogTemp, Error, TEXT("Door Opener for %s is missing a Pressure Plate (Trigger Volume)"), *GetOwner()->GetName());
-
-	OriginalYawAngle = GetOwner()->GetActorRotation().Yaw;
-	CurrentYawAngle = OriginalYawAngle;
 }
 
 // Called every frame
@@ -33,17 +30,11 @@ void UDoorOpener::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 }
 
 void UDoorOpener::OpenDoor()  {
-	if(CurrentYawAngle <= OriginalYawAngle + 90)
-		CurrentYawAngle += 2;
-	FRotator Rotater = FRotator(0.0f, CurrentYawAngle, 0.0f);
-	GetOwner()->SetActorRotation(Rotater);
+	OnOpenRequest.Broadcast();
 }
 
 void UDoorOpener::CloseDoor() {
-	if (CurrentYawAngle > OriginalYawAngle)
-		CurrentYawAngle -= 3;
-	FRotator Rotater = FRotator(0.0f, CurrentYawAngle, 0.0f);
-	GetOwner()->SetActorRotation(Rotater);
+	OnCloseRequest.Broadcast();
 }
 
 float UDoorOpener::GetTotalMassOnPressurePlate() {
