@@ -30,11 +30,11 @@ void UDoorOpener::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 }
 
 void UDoorOpener::OpenDoor()  {
-	OnOpenRequest.Broadcast();
+	OnOpen.Broadcast();
 }
 
 void UDoorOpener::CloseDoor() {
-	OnCloseRequest.Broadcast();
+	OnClose.Broadcast();
 }
 
 float UDoorOpener::GetTotalMassOnPressurePlate() {
